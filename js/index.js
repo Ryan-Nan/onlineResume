@@ -9,6 +9,12 @@ $(document).ready(function() {
     $("a.smallIcon-l").click(function () {
         $("#lightbox").fadeIn(500);
         $("#navBar").hide();
+        addEvent(document.body,"mousewheel",function(){
+            $("#lightbox").hide();
+            $("#navBar").show();
+            $('#zoom').hide();
+            $('#zoom_content').html('');
+        })
     });
     $("#lightbox").click(function () {
         $("#lightbox").fadeOut(300);
@@ -21,6 +27,17 @@ $(document).ready(function() {
         $("#lightbox").fadeOut(300);
         $("#navBar").show();
     });
+
+    //绑定鼠标滚动事件
+    function addEvent(obj,type,fn){
+        var isFirefox= typeof document.body.style.MozUserSelect != "undefined";
+        if(obj.addEventListener){
+            obj.addEventListener(isFirefox?"DOMMouseScroll":type,fn,false)
+        }else{
+            obj.attachEvent("on"+type,fn)
+        }
+        return fn; //必须有这个，因为移出事件的时候必须是这个函数，所以必须返回出来
+    }
 
 });
 
